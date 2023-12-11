@@ -1,0 +1,5 @@
+  name: AutoTreeChopper
+  description: Automatically chops down trees with tree chopping machine
+  main: net.gardna.james.autotreechopper.Main
+  version: 1.0
+  api-version: '1.20'
