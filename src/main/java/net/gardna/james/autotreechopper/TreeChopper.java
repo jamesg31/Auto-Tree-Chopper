@@ -183,16 +183,26 @@ public class TreeChopper {
 
         // if block is a log, destroy it and all logs connected to it
         if (block.getType().name().contains("LOG")) {
-            Bukkit.getLogger().info("destroying tree");
             Set<Block> logs = detectLogs(block, new HashSet<Block>());
-            Bukkit.getLogger().info("logs: " + logs);
-            destoryLogs(logs);
+            if (!logs.isEmpty()) {
+                // cancel update() scheduler
+                Bukkit.getScheduler().cancelTask(taskId);
+                // wait .5 seconds per log
+                Bukkit.getScheduler().runTaskLater(Main.getPlugin(Main.class), () -> {
+                    // destroy logs
+                    destroyLogs(logs);
+                    // schedule update() to run every tick
+                    BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
+                    taskId = scheduler.scheduleSyncRepeatingTask(Main.getPlugin(Main.class), this::update, 0L, 1L);
+                }, 20L * (logs.size() / 2));
+            }
         }
     }
 
     /**
      * Detect all logs connected to a log
      * @param block the log to detect
+     * @param logs the set of logs to add to
      */
     private Set<Block> detectLogs(Block block, Set<Block> logs) {
         for (int x = -1; x < 2; x++) {
@@ -211,12 +221,14 @@ public class TreeChopper {
         return logs;
     }
     /**
-     * Destroy a log and all logs connected to it
+     * Replaces all logs in a set with air and adds their drops to the inventory
      * @param logs the logs to destroy
      */
-    private void destoryLogs(Set<Block> logs) {
+    private void destroyLogs(Set<Block> logs) {
         for (Block log : logs) {
-            log.breakNaturally();
+            // break log and add drops to chest
+            log.getDrops().forEach(itemStack -> inventory.addItem(itemStack));
+            log.setType(Material.AIR);
         }
     }
 
