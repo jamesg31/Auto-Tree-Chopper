@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8c7927d0-5816-49d2-a065-5afcad948579" name="Changes" comment="initial setup, block listener">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/EntityListener.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/TreeChopper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
+    <list default="true" id="8c7927d0-5816-49d2-a065-5afcad948579" name="Changes" comment="place and remove tree choppers">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/BlockPlaceListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/BlockPlaceListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/TreeChopper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/TreeChopper.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +70,7 @@
       <option name="presentableId" value="Default" />
       <updated>1702335255336</updated>
       <workItem from="1702335256356" duration="103000" />
-      <workItem from="1702335366809" duration="9522000" />
+      <workItem from="1702335366809" duration="12525000" />
     </task>
     <task id="LOCAL-00001" summary="initial setup, block listener">
       <option name="closed" value="true" />
@@ -86,7 +80,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702338573627</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="place and remove tree choppers">
+      <option name="closed" value="true" />
+      <created>1702346036451</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1702346036451</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -94,6 +96,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial setup, block listener" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial setup, block listener" />
+    <MESSAGE value="place and remove tree choppers" />
+    <option name="LAST_COMMIT_MESSAGE" value="place and remove tree choppers" />
   </component>
 </project>

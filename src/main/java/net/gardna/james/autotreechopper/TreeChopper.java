@@ -13,14 +13,15 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-
-import java.util.UUID;
+import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.util.Vector;
 
 public class TreeChopper {
     public Block chest;
     private FallingBlock fallingBlock;
+    private ArmorStand fallingBlockArmorStand;
     private ArmorStand armorStand;
-    private Location location;
+    private Vector location;
     private Inventory inventory;
     public void init(Block chest) {
         this.chest = chest;
@@ -43,20 +44,30 @@ public class TreeChopper {
 
         // spawn falling block underneath chest
         Block bit = chest.getRelative(BlockFace.DOWN);
-        location = bit.getLocation();
+        location = bit.getLocation().toVector();
         fallingBlock = chest.getWorld().spawnFallingBlock(bit.getLocation(), bit.getBlockData());
         fallingBlock.setGravity(false);
+        fallingBlockArmorStand = chest.getWorld().spawn(bit.getLocation().add(.5, -2, .5), ArmorStand.class);
+        fallingBlockArmorStand.setVisible(false);
+        fallingBlockArmorStand.setGravity(false);
+        fallingBlockArmorStand.setInvulnerable(true);
+        fallingBlockArmorStand.setCanPickupItems(false);
+        fallingBlockArmorStand.addPassenger(fallingBlock);
+
+        BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
+        scheduler.scheduleSyncRepeatingTask(Main.getPlugin(Main.class), this::update, 40L, 1L);
     }
 
     public void destroy() {
         // remove armor stand
         armorStand.remove();
         // remove falling block
+        fallingBlockArmorStand.remove();
         fallingBlock.remove();
 
         // replace armor stand and falling block with chest and diamond block
-        location.getBlock().setType(Material.DIAMOND_BLOCK);
-        Block chest = location.add(0, 1, 0).getBlock();
+        location.toLocation(armorStand.getWorld()).getBlock().setType(Material.DIAMOND_BLOCK);
+        Block chest = location.add(new Vector(0, 1, 0)).toLocation(armorStand.getWorld()).getBlock();
         chest.setType(Material.CHEST);
         // set chest inventory to inventory of tree chopper
         Chest chestState = (Chest) chest.getState();
@@ -64,6 +75,21 @@ public class TreeChopper {
 
         // remove tree chopper from list of tree choppers
         Main.treeChoppers.remove(this);
+    }
+
+    private void update() {
+        // move armor stand and falling block to the chest
+        location = location.add(new Vector(.01, 0, 0));
+        armorStand.teleport(location.toLocation(armorStand.getWorld()).add(.5, -0.35, .5));
+        Bukkit.getLogger().info("location: " + location);
+
+        // move falling block armor stand, must eject and re-add passenger to update position
+        fallingBlockArmorStand.eject();
+        fallingBlockArmorStand.teleport(location.toLocation(armorStand.getWorld()).add(.5, -2, .5));
+        fallingBlockArmorStand.addPassenger(fallingBlock);
+
+        // set falling block to 1 tick lived so it doesn't break
+        fallingBlock.setTicksLived(1);
     }
 
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
