@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8c7927d0-5816-49d2-a065-5afcad948579" name="Changes" comment="delay dependent on tree size">
+    <list default="true" id="8c7927d0-5816-49d2-a065-5afcad948579" name="Changes" comment="types, invincible and obstacle, final changes">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/BlockPlaceListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/BlockPlaceListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/TreeChopper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/TreeChopper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +22,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -74,7 +75,7 @@
       <option name="presentableId" value="Default" />
       <updated>1702335255336</updated>
       <workItem from="1702335256356" duration="103000" />
-      <workItem from="1702335366809" duration="33915000" />
+      <workItem from="1702335366809" duration="35281000" />
     </task>
     <task id="LOCAL-00001" summary="initial setup, block listener">
       <option name="closed" value="true" />
@@ -140,7 +141,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702406117073</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="types, invincible and obstacle, final changes">
+      <option name="closed" value="true" />
+      <created>1702416917497</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1702416917497</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -155,6 +164,7 @@
     <MESSAGE value="descend" />
     <MESSAGE value="destroy trees" />
     <MESSAGE value="delay dependent on tree size" />
-    <option name="LAST_COMMIT_MESSAGE" value="delay dependent on tree size" />
+    <MESSAGE value="types, invincible and obstacle, final changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="types, invincible and obstacle, final changes" />
   </component>
 </project>
