@@ -8,6 +8,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 
+import java.util.List;
+import java.util.Map;
+
 public class BlockPlaceListener implements Listener {
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
@@ -15,15 +18,18 @@ public class BlockPlaceListener implements Listener {
         if (event.getBlock().getType() != Material.CHEST) {
             return;
         }
-        // get block underneath chest
-        Block block = event.getBlock().getRelative(BlockFace.DOWN);
-        if (block.getType() != Material.DIAMOND_BLOCK) {
-            return;
+        // get config for bits
+        List<Map<?, ?>> bits = Main.getPlugin(Main.class).getConfig().getMapList("bits");
+        for (Map<?, ?> bit : bits) {
+            // loop through all bits, check if material matches block below chest placed
+
+            if (event.getBlock().getRelative(BlockFace.DOWN).getType() == Material.getMaterial((String) bit.get("material"))) {
+                // if so, create new TreeChopper
+                TreeChopper treeChopper = new TreeChopper();
+                treeChopper.init(event.getBlock(), bit, event.getPlayer());
+                Main.treeChoppers.add(treeChopper);
+                return;
+            }
         }
-        event.getPlayer().sendMessage("You placed a chest on top of diamonds!");
-        // create new TreeChopper and add it to the list of TreeChoppers
-        TreeChopper treeChopper = new TreeChopper();
-        treeChopper.init(event.getBlock());
-        Main.treeChoppers.add(treeChopper);
     }
 }

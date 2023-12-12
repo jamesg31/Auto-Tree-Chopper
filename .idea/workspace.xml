@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8c7927d0-5816-49d2-a065-5afcad948579" name="Changes" comment="destroy trees">
+    <list default="true" id="8c7927d0-5816-49d2-a065-5afcad948579" name="Changes" comment="delay dependent on tree size">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/BlockPlaceListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/BlockPlaceListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/TreeChopper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/TreeChopper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +74,7 @@
       <option name="presentableId" value="Default" />
       <updated>1702335255336</updated>
       <workItem from="1702335256356" duration="103000" />
-      <workItem from="1702335366809" duration="23521000" />
+      <workItem from="1702335366809" duration="33915000" />
     </task>
     <task id="LOCAL-00001" summary="initial setup, block listener">
       <option name="closed" value="true" />
@@ -130,7 +132,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702405258381</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="delay dependent on tree size">
+      <option name="closed" value="true" />
+      <created>1702406117073</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1702406117073</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -144,6 +154,7 @@
     <MESSAGE value="climb" />
     <MESSAGE value="descend" />
     <MESSAGE value="destroy trees" />
-    <option name="LAST_COMMIT_MESSAGE" value="destroy trees" />
+    <MESSAGE value="delay dependent on tree size" />
+    <option name="LAST_COMMIT_MESSAGE" value="delay dependent on tree size" />
   </component>
 </project>

@@ -1,16 +1,47 @@
 bits:
-  - block: DIAMOND_BLOCK
+  - material: DIAMOND_BLOCK
     speed: 100
     durability: 100
     yield: 60
-    replant: true
-  - block: EMERALD_BLOCK
+    replant: false
+  - material: EMERALD_BLOCK
     speed: 80
     durability: 100
     yield: 60
     replant: true
-  - block: GOLD_BLOCK
+  - material: GOLD_BLOCK
     speed: 60
     durability: 50
     yield: 100
-    replant: true
+    replant: false
+obstacles:
+  - DANDELION
+  - POPPY
+  - BLUE_ORCHID
+  - ALLIUM
+  - AZURE_BLUET
+  - RED_TULIP
+  - ORANGE_TULIP
+  - WHITE_TULIP
+  - PINK_TULIP
+  - OXEYE_DAISY
+  - CORNFLOWER
+  - LILY_OF_THE_VALLEY
+  - WITHER_ROSE
+  - SUNFLOWER
+  - LILAC
+  - ROSE_BUSH
+  - PEONY
+  - BROWN_MUSHROOM
+  - RED_MUSHROOM
+  - FERN
+invisible:
+  - TALL_GRASS
+  - GRASS
+  - OAK_SAPLING
+  - SPRUCE_SAPLING
+  - BIRCH_SAPLING
+  - JUNGLE_SAPLING
+  - ACACIA_SAPLING
+  - DARK_OAK_SAPLING
+  - CHERRY_SAPLING
