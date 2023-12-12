@@ -13,12 +13,16 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.util.Vector;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class TreeChopper {
     public Block chest;
+    private int taskId;
     private FallingBlock fallingBlock;
     private ArmorStand fallingBlockArmorStand;
     private ArmorStand armorStand;
@@ -77,7 +81,8 @@ public class TreeChopper {
 
         // schedule update() to run every tick
         BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
-        scheduler.scheduleSyncRepeatingTask(Main.getPlugin(Main.class), this::update, 40L, 1L);
+        taskId = scheduler.scheduleSyncRepeatingTask(Main.getPlugin(Main.class), this::update, 40L, 1L);
+
     }
 
     /**
@@ -100,6 +105,9 @@ public class TreeChopper {
 
         // remove tree chopper from list of tree choppers
         Main.treeChoppers.remove(this);
+
+        // cancel update() scheduler
+        Bukkit.getScheduler().cancelTask(taskId);
     }
 
     /**
@@ -123,15 +131,26 @@ public class TreeChopper {
 
         if (location.getX() % 1 > .5 || location.getZ() % 1 > .5) {
             if (firstHalf) {
+                // this is the first update of the second half of the block
                 Bukkit.getLogger().info("climbOrDescend");
                 climbOrDescend();
                 firstHalf = false;
             }
         } else {
-            firstHalf = true;
+            if (!firstHalf) {
+                // this is the first update of the first half of the block
+                Bukkit.getLogger().info("checkForTree");
+                // check for tree
+                destroyTree();
+                firstHalf = true;
+            }
         }
     }
 
+    /**
+     * Check upcoming terrain for elevation change, climb or descend if necessary.
+     * Will destroy tree chopper if it is unable to climb or descend.
+     */
     private void climbOrDescend() {
         Vector tempVector = location.toVector().add(new Vector(-1, -1, -1).multiply(vector));
         Block block = tempVector.toLocation(armorStand.getWorld()).getBlock();
@@ -156,14 +175,62 @@ public class TreeChopper {
     }
 
     /**
+     * Check upcoming block for a tree, destroy them if found.
+     */
+    private void destroyTree() {
+        Vector tempVector = location.toVector().add(new Vector(-1, -1, -1).multiply(vector));
+        Block block = tempVector.toLocation(armorStand.getWorld()).getBlock();
+
+        // if block is a log, destroy it and all logs connected to it
+        if (block.getType().name().contains("LOG")) {
+            Bukkit.getLogger().info("destroying tree");
+            Set<Block> logs = detectLogs(block, new HashSet<Block>());
+            Bukkit.getLogger().info("logs: " + logs);
+            destoryLogs(logs);
+        }
+    }
+
+    /**
+     * Detect all logs connected to a log
+     * @param block the log to detect
+     */
+    private Set<Block> detectLogs(Block block, Set<Block> logs) {
+        for (int x = -1; x < 2; x++) {
+            for (int y = -1; y < 2; y++) {
+                for (int z = -1; z < 2; z++) {
+                    Block checked_block = block.getLocation().clone().add(x, y, z).getBlock();
+                    Bukkit.getLogger().info(checked_block.getLocation().toString());
+                    if (!logs.contains(checked_block) && checked_block.getType().name().contains("LOG")) {
+                        logs.add(checked_block);
+                        logs.addAll(detectLogs(checked_block, logs));
+                        Bukkit.getLogger().info("added block " + logs);
+                    }
+                }
+            }
+        }
+        return logs;
+    }
+    /**
+     * Destroy a log and all logs connected to it
+     * @param logs the logs to destroy
+     */
+    private void destoryLogs(Set<Block> logs) {
+        for (Block log : logs) {
+            log.breakNaturally();
+        }
+    }
+
+    /**
      * Called when a player interacts with an entity (used for right clicks)
      * @param event the event
      */
-    public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
+    public void onPlayerInteractAtEntity(PlayerInteractAtEntityEvent event) {
         // if player is interacting with this tree chopper
-        if (!event.getRightClicked().equals(armorStand) && !event.getRightClicked().equals(fallingBlock)) {
+        if (!event.getRightClicked().equals(armorStand) && !event.getRightClicked().equals(fallingBlockArmorStand) && !event.getRightClicked().equals(fallingBlock)) {
             return;
         }
+        // cancel event so player cant take chest off of armor stand
+        event.setCancelled(true);
         // open chest inventory
         event.getPlayer().openInventory(inventory);
     }
@@ -174,7 +241,7 @@ public class TreeChopper {
      */
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         // if player is attacking with this tree chopper
-        if (!event.getEntity().equals(armorStand) && !event.getEntity().equals(fallingBlock)) {
+        if (!event.getEntity().equals(armorStand) && !event.getEntity().equals(fallingBlockArmorStand) && !event.getEntity().equals(fallingBlock)) {
             return;
         }
         // destroy tree chopper
