@@ -137,7 +137,13 @@ public class TreeChopper {
         Block block = tempVector.toLocation(armorStand.getWorld()).getBlock();
         // if block is air, return
         if (block.getType() == Material.AIR) {
-            return;
+            // if block has air underneath it, descend, otherwise return
+            if (block.getRelative(BlockFace.DOWN).getType() == Material.AIR) {
+                location = location.add(0, -1, 0);
+                return;
+            } else {
+                return;
+            }
         }
         // if block has a block above it, destroy tree chopper
         if (block.getRelative(BlockFace.UP).getType() != Material.AIR) {
