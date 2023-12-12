@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8c7927d0-5816-49d2-a065-5afcad948579" name="Changes" comment="move tree choppers">
+    <list default="true" id="8c7927d0-5816-49d2-a065-5afcad948579" name="Changes" comment="move in direction facing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/TreeChopper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/gardna/james/autotreechopper/TreeChopper.java" afterDir="false" />
     </list>
@@ -34,6 +34,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Maven.AutoTreeChopper [compile].executor": "Run",
     "Maven.AutoTreeChopper [package].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -70,7 +71,7 @@
       <option name="presentableId" value="Default" />
       <updated>1702335255336</updated>
       <workItem from="1702335256356" duration="103000" />
-      <workItem from="1702335366809" duration="15004000" />
+      <workItem from="1702335366809" duration="16750000" />
     </task>
     <task id="LOCAL-00001" summary="initial setup, block listener">
       <option name="closed" value="true" />
@@ -96,7 +97,15 @@
       <option name="project" value="LOCAL" />
       <updated>1702349086446</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="move in direction facing">
+      <option name="closed" value="true" />
+      <created>1702355725896</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1702355725896</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -106,6 +115,7 @@
     <MESSAGE value="initial setup, block listener" />
     <MESSAGE value="place and remove tree choppers" />
     <MESSAGE value="move tree choppers" />
-    <option name="LAST_COMMIT_MESSAGE" value="move tree choppers" />
+    <MESSAGE value="move in direction facing" />
+    <option name="LAST_COMMIT_MESSAGE" value="move in direction facing" />
   </component>
 </project>
