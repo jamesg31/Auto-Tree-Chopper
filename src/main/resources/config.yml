@@ -1,0 +1,16 @@
+bits:
+  - block: DIAMOND_BLOCK
+    speed: 100
+    durability: 100
+    yield: 60
+    replant: true
+  - block: EMERALD_BLOCK
+    speed: 80
+    durability: 100
+    yield: 60
+    replant: true
+  - block: GOLD_BLOCK
+    speed: 60
+    durability: 50
+    yield: 100
+    replant: true

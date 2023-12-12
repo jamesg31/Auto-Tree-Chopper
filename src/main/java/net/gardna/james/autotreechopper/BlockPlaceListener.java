@@ -1,5 +1,6 @@
 package net.gardna.james.autotreechopper;
 
+import com.sun.source.tree.Tree;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.*;
@@ -20,5 +21,9 @@ public class BlockPlaceListener implements Listener {
             return;
         }
         event.getPlayer().sendMessage("You placed a chest on top of diamonds!");
+        // create new TreeChopper and add it to the list of TreeChoppers
+        TreeChopper treeChopper = new TreeChopper();
+        treeChopper.init(event.getBlock());
+        Main.treeChoppers.add(treeChopper);
     }
 }
