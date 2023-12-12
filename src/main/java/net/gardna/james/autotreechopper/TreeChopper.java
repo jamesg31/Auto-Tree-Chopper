@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Directional;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.FallingBlock;
@@ -21,8 +22,16 @@ public class TreeChopper {
     private FallingBlock fallingBlock;
     private ArmorStand fallingBlockArmorStand;
     private ArmorStand armorStand;
-    private Vector location;
+    private Location location;
     private Inventory inventory;
+    private Vector vector;
+    // if the tree chopper is in the first half of the block, used for collision detection in update()
+    private boolean firstHalf = false;
+
+    /**
+     * Initialize the tree chopper
+     * @param chest the chest to initialize the tree chopper with
+     */
     public void init(Block chest) {
         this.chest = chest;
 
@@ -30,8 +39,21 @@ public class TreeChopper {
         inventory = Bukkit.createInventory(null, 27, "Chest");
         inventory.setContents(((Chest) chest.getState()).getBlockInventory().getContents());
 
+        // get direction of chest
+        Directional direction = ((org.bukkit.block.data.type.Chest) chest.getBlockData());
+
+        // convert direction to vector
+        vector = direction.getFacing().getDirection();
+        // get location of bit block
+        Block bit = chest.getRelative(BlockFace.DOWN);
+        location = bit.getLocation();
+        location.setDirection(direction.getFacing().getDirection());
+
+        Location armorStandLocation = chest.getLocation().add(.5, -1.35, .5);
+        armorStandLocation.setDirection(direction.getFacing().getDirection());
+
         // replace chest with armor stand
-        armorStand = chest.getWorld().spawn(chest.getLocation().add(.5, -1.35, .5), ArmorStand.class);
+        armorStand = chest.getWorld().spawn(armorStandLocation, ArmorStand.class);
         chest.setType(Material.AIR);
         armorStand.setVisible(false);
         armorStand.setGravity(false);
@@ -42,9 +64,6 @@ public class TreeChopper {
         assert equipment != null;
         equipment.setHelmet(new ItemStack(Material.CHEST));
 
-        // spawn falling block underneath chest
-        Block bit = chest.getRelative(BlockFace.DOWN);
-        location = bit.getLocation().toVector();
         fallingBlock = chest.getWorld().spawnFallingBlock(bit.getLocation(), bit.getBlockData());
         fallingBlock.setGravity(false);
         fallingBlockArmorStand = chest.getWorld().spawn(bit.getLocation().add(.5, -2, .5), ArmorStand.class);
@@ -58,6 +77,9 @@ public class TreeChopper {
         scheduler.scheduleSyncRepeatingTask(Main.getPlugin(Main.class), this::update, 40L, 1L);
     }
 
+    /**
+     * Destroy the tree chopper
+     */
     public void destroy() {
         // remove armor stand
         armorStand.remove();
@@ -66,8 +88,8 @@ public class TreeChopper {
         fallingBlock.remove();
 
         // replace armor stand and falling block with chest and diamond block
-        location.toLocation(armorStand.getWorld()).getBlock().setType(Material.DIAMOND_BLOCK);
-        Block chest = location.add(new Vector(0, 1, 0)).toLocation(armorStand.getWorld()).getBlock();
+        location.getBlock().setType(Material.DIAMOND_BLOCK);
+        Block chest = location.add(0, 1, 0).getBlock();
         chest.setType(Material.CHEST);
         // set chest inventory to inventory of tree chopper
         Chest chestState = (Chest) chest.getState();
@@ -77,21 +99,30 @@ public class TreeChopper {
         Main.treeChoppers.remove(this);
     }
 
+    /**
+     * Update the position of the armor stand and falling block, ran on each tick by the scheduler
+     */
     private void update() {
         // move armor stand and falling block to the chest
-        location = location.add(new Vector(.01, 0, 0));
-        armorStand.teleport(location.toLocation(armorStand.getWorld()).add(.5, -0.35, .5));
+        location = location.add(new Vector(-.1, -.1, -.1).multiply(vector));
+
+        Vector vector = location.toVector();
+        armorStand.teleport(vector.toLocation(armorStand.getWorld()).add(.5, -0.35, .5).setDirection(location.getDirection()));
         Bukkit.getLogger().info("location: " + location);
 
         // move falling block armor stand, must eject and re-add passenger to update position
         fallingBlockArmorStand.eject();
-        fallingBlockArmorStand.teleport(location.toLocation(armorStand.getWorld()).add(.5, -2, .5));
+        fallingBlockArmorStand.teleport(vector.toLocation(armorStand.getWorld()).add(.5, -2, .5).setDirection(location.getDirection()));
         fallingBlockArmorStand.addPassenger(fallingBlock);
 
         // set falling block to 1 tick lived so it doesn't break
         fallingBlock.setTicksLived(1);
     }
 
+    /**
+     * Called when a player interacts with an entity (used for right clicks)
+     * @param event the event
+     */
     public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
         // if player is interacting with this tree chopper
         if (!event.getRightClicked().equals(armorStand) && !event.getRightClicked().equals(fallingBlock)) {
@@ -101,6 +132,10 @@ public class TreeChopper {
         event.getPlayer().openInventory(inventory);
     }
 
+    /**
+     * Called when an entity is damaged by another entity (used for left clicks)
+     * @param event the event
+     */
     public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
         // if player is attacking with this tree chopper
         if (!event.getEntity().equals(armorStand) && !event.getEntity().equals(fallingBlock)) {
